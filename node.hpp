@@ -9,12 +9,13 @@ struct NoneType
     return NoneType{};
   }
 };
-template <typename next, int val>
+template <typename next, auto val>
 struct Node
 {
   constexpr const static bool is_none = false;
   using next_t = next;
-  constexpr const static int node_v = val;
+  constexpr const static auto node_v = val;
+  using node_t = decltype(val);
   template <int i>
   constexpr auto get() const noexcept
   {
@@ -32,12 +33,12 @@ constexpr auto first(T v)
 {
   return T::node_v;
 }
-template <typename T, int v>
+template <typename T, auto v>
 constexpr auto last(Node<T, v> val)
 {
   return last(T{});
 }
-template <int v>
+template <auto v>
 constexpr auto last(Node<NoneType, v> val)
 {
   return v;

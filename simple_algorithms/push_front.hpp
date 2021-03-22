@@ -1,11 +1,10 @@
 #pragma once
 #include "node.hpp"
 namespace cxl {
-template <int v, int... newVal, typename a>
+template <auto v, auto... newVal, typename a>
 constexpr auto push_front(a val)
 {
-  auto tmp = Node<a, v>{};
-  return push_front<newVal...>(tmp);
+  return push_front<newVal...>(Node<a, v>{});
 }
 template <typename a>
 constexpr auto push_front(a val)

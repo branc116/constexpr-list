@@ -2,7 +2,7 @@
 #include "node.hpp"
 namespace cxl {
 namespace impl {
-template <int v, typename T>
+template <auto v, typename T>
 constexpr auto push_back_impl(T val)
 {
   if constexpr (T::is_none) {
@@ -10,16 +10,14 @@ constexpr auto push_back_impl(T val)
   }
   else {
     typename T::next_t next{};
-    auto n = impl::push_back_impl<v>(next);
-    return Node<decltype(n), T::node_v>{};
+    return Node<decltype(impl::push_back_impl<v>(next)), T::node_v>{};
   }
 }
 }
-template <int v, int... rest, typename T>
+template <auto v, auto... rest, typename T>
 constexpr auto push_back(T val)
 {
-  auto a = impl::push_back_impl<v>(val);
-  auto b = push_back<rest...>(a);
+  auto b = push_back<rest...>(impl::push_back_impl<v>(val));
   return b;
 }
 template <typename T>

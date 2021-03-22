@@ -6,30 +6,33 @@
 namespace cxl {
 template<typename T>
 constexpr auto sort(T val) {
+  return sort(val, [](auto i, auto j) { return i < j; });
+}
+template<typename T, typename pred>
+constexpr auto sort(T val, pred p) {
   constexpr auto n = count(val);
   constexpr auto l_n = n >> 1;
   constexpr auto r_n = n - l_n;
-  auto l = take<l_n>(val);
-  auto r = take<l_n, r_n>(val);
-  auto s_l = sort(l);
-  auto s_r = sort(r);
-  return merge(s_l, s_r);
+  return merge(p,
+    sort(take<l_n>(val), p),
+    sort(take<l_n, r_n>(val), p)
+  );
 }
-template<int i, int j>
-constexpr auto sort(Node<Node<NoneType, i>, j> val) {
-  if constexpr (i < j) {
+template<auto i, auto j, typename pred>
+constexpr auto sort(Node<Node<NoneType, i>, j> val, pred p) {
+  if constexpr (p(i, j)) {
     return Node<Node<NoneType, j>, i>{};
   }
   else {
     return val;
   }
 }
-template<int i>
-constexpr auto sort(Node<NoneType, i> val) {
+template<auto i, typename pred>
+constexpr auto sort(Node<NoneType, i> val, pred p) {
   return val;
 }
-template<>
-constexpr auto sort(NoneType val) {
+template<typename pred>
+constexpr auto sort(NoneType val, pred p) {
   return val;
 }
 }
