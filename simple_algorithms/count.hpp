@@ -1,6 +1,6 @@
 #pragma once
 
-#include "node.hpp"
+#include "../node.hpp"
 #include "where.hpp"
 
 namespace cxl

@@ -22,8 +22,9 @@ struct Node
     if constexpr (i <= 0)
       return node_v;
     else {
-      next tmp{};
-      return tmp.get<i - 1>();
+      next_t tmp{};
+      auto a = next_t{}.template get<i-1>();
+      return a;
     }
   }
 };

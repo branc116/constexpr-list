@@ -19,9 +19,9 @@ constexpr auto pb2 = push_back<10>(pf1);               // [4, 3, 2, 10]
 
 constexpr auto f = first(pb2);                         // 4
 constexpr auto l = last(pb2);                          // 10
-constexpr auto g1 = pb2.get<0>();                      // 4
-constexpr auto g2 = pb2.get<2>();                      // 10
-constexpr auto g3 = pb2.get<4444>();                   // NoneType
+constexpr auto g1 = pb2.template get<0>();             // 4
+constexpr auto g2 = pb2.template get<2>();             // 10
+constexpr auto g3 = pb2.template get<4444>();          // NoneType
 
 constexpr auto t1 = take</*offset*/1, /*count*/2>(_3); // [2, 3]
 constexpr auto t2 = take</*count*/2>(_3);              // [1, 2]
@@ -72,5 +72,8 @@ struct str1 {
 };
 ca n3 = map(n2, [](auto i) {return str1{ i,i * i }; });
 ca n4 = map(n3, [](auto i) {return i.xor_em(); });
+int main() {
+  return 0;
+}
 
 //contains, find_index, reduce, sum, average, all, any,
